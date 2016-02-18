@@ -9,9 +9,9 @@ var PORT = process.env.NODE_ENV || 3000;
 
 var app = express();
 
-var Entry = sequelize.define('Entry,'{
+var Entry = sequelize.define('Entry',{
   userName:{
-    type: sequelize.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   phone: {
@@ -25,7 +25,7 @@ var Entry = sequelize.define('Entry,'{
     }
   },
   message: {
-    type: sequelize.TEXT,
+    type: Sequelize.TEXT,
     allowNull: false,
     validate: {
       len: {
@@ -53,9 +53,13 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-app.get('/', function(req, res){
-  Entry.findAll().then(function(entries){
-    res.render('home',{
+app.get('/', function(req, res) {
+  res.render('home');
+})
+
+app.post('/', function(req, res){
+  Entry.create(req.body).then(function(entries){
+    res.render('home',{ 
       entries: entries
     });
   });
